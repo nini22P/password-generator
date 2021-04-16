@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator Lite</title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+    <div id="box">
+    <div id="contrlbox">
+    <input type="range" id="range" min="1" max="50" step="1"/>
+    <span id="length"></span>
+    <label id="checklabel">
+        <input id="symbolscheckbox" type = "checkbox"/>Symbols
+    </label>
+    <button id="copy">Copy</button>
+    </div>
+    <div id="passwordbox">
+        <span id="password"></span>
+    </div>
+    
+    <script src="popup.js"></script>
+    
+</body>
+</html>

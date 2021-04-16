@@ -1,0 +1,42 @@
+#box {
+    width: 300px;
+}
+
+#contrlbox {
+    width: 300;
+    text-align: center;
+    margin-top: 20px;
+    user-select: none;
+}
+
+#passwordbox {
+    font-size: 18px;
+    text-align: center;
+    width: 270px;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    word-break:break-all;
+}
+
+#copy {
+    border: 0ch;
+    border-radius: 1px;
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+#copy,
+#symbolscheckbox,
+#checklabel,
+#range {
+    vertical-align:middle;
+}
+
+#copy:hover,
+#symbolscheckbox:hover,
+#checklabel:hover,
+#range:hover{
+    cursor:pointer;
+ }
+
