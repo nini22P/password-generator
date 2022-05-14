@@ -4,6 +4,14 @@
     },
     "extDescription": {
         "message": "一款简单的密码生成器。"
+    },
+    "isEn": {
+        "message": "false"
+    },
+    "symbols": {
+        "message": "符号"
+    },
+    "copy": {
+        "message": "复制"
     }
-
 }

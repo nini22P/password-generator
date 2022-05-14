@@ -1,46 +1,49 @@
 #box {
-  width: 320px;
+  width: 400px;
+  height: auto;
 }
 
-#contrlbox {
-  width: 320;
+#contrlBox {
   text-align: center;
   font-size: 15px;
-  margin-top: 15px;
+  margin-top: 20px;
   user-select: none;
 }
 
-#passwordbox {
-  font-size: 18px;
+#passwordBox {
+  font-size: 20px;
   text-align: center;
-  width: 290px;
-  margin-top: 10px;
-  margin-left: 15px;
+  margin-top: 15px;
   margin-bottom: 15px;
   word-break: break-all;
 }
 
-#copy {
-  border: 0ch;
-  border-radius: 2px;
-  margin-left: 10px;
-  font-size: 15px;
+#length {
+  width: 80px;
 }
 
-#copy,
-#symbolscheckbox,
-#checklabel,
+#copyButon {
+  border: 0ch;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+#copyButon,
+#symbolsCheckBox,
+#checkLabel,
 #range {
   vertical-align: middle;
 }
 
-#copy:hover,
-#symbolscheckbox:hover,
-#checklabel:hover,
+#copyButon:hover,
+#symbolsCheckBox:hover,
+#checkLabel:hover,
 #range:hover {
   cursor: pointer;
 }
 
-#copy:hover {
+#copyButon:hover {
   background-color: aqua;
+  color: gray;
 }
