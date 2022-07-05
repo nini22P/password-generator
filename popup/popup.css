@@ -25,9 +25,11 @@
 
 #copyButon {
   border: 0ch;
-  border-radius: 4px;
+  border-radius: 2px;
   margin-left: 10px;
   font-size: 18px;
+  color:green;
+  background-color: aliceblue;
 }
 
 #copyButon,
@@ -45,6 +47,11 @@
 }
 
 #copyButon:hover {
-  background-color: aqua;
-  color: gray;
+  background-color: green;
+  color: aliceblue;
+}
+
+#copyButon:active {
+  color: green;
+  background-color: aliceblue;
 }
