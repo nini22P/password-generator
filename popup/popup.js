@@ -1,16 +1,16 @@
 function createPassword() {
   var length = document.getElementById("length").value;
   var symbols = document.getElementById("symbolsCheckBox").checked;
-  var str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  var str = "01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   if (symbols === true) str += "!@#$%^&*()_+-=[]{}:./?";
   var passwords = "";
   for (var i = 0; i < length; i++) {
     passwords +=
       str[
-        Math.floor(
-          (crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) *
-            str.length
-        )
+      Math.floor(
+        (crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) *
+        str.length
+      )
       ];
   }
   document.getElementById("password").innerHTML = passwords;
