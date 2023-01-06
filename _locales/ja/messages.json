@@ -1,0 +1,17 @@
+{
+    "extName": {
+        "message": "パスワードジェネレーター Lite"
+    },
+    "extDescription": {
+        "message": "シンプルなパスワードジェネレーター。"
+    },
+    "isEn": {
+        "message": "false"
+    },
+    "symbols": {
+        "message": "シンボル"
+    },
+    "copy": {
+        "message": "コピー"
+    }
+}
