@@ -5,86 +5,133 @@ body {
   background-color: #f7f7f7;
   color: #3b3b3b;
   accent-color: #3b3b3b;
+  font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 #box {
-  width: 24rem;
-  height: auto;
-}
-
-#contrlBox {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   text-align: center;
-  font-size: 1rem;
-  height: 2.5rem;
-  margin-top: 0.25rem;
+  width: auto;
+  height: max-content;
+  padding: 1rem;
   user-select: none;
 }
 
 #passwordBox {
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: center;
-  margin: 0.5rem 1rem;
+  margin: 1rem 1rem 0 1rem;
   word-break: break-all;
+  width: 16rem;
+  line-height: 1.25rem;
+  user-select: text;
+}
+
+.numberBox {
+  height: fit-content;
+  display: flex;
+  font-size: 1rem;
 }
 
 #length {
-  width: 4rem;
+  width: 5rem;
   text-align: center;
   border: 0.05rem solid #3b3b3b;
-  border-radius: 0.1rem;
+  border-radius: 0.2rem 0 0 0.2rem;
   outline: none;
   background-color: #f7f7f7;
+  height: auto;
+}
+
+.button {
+  border: 0.05rem solid #3b3b3b;
+  border-radius: 0 0.2rem 0.2rem 0;
+  border-left: none;
+  background-color: #f7f7f7;
+  width: 1.4rem;
+  height: auto;
+  line-height: 1.4rem;
+  text-align: center;
+  padding: 0;
+}
+
+#minus {
+  border-radius: 0;
+}
+
+#range {
+  width: 90%;
+  margin-top: 1rem;
 }
 
 #symbolsCheckBox {
   display: none;
 }
 
+#checkLabel {
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.2rem;
+}
+
 #checkLabel:has(#symbolsCheckBox) {
-  color: #aaa;
+  color: #3b3b3b;
+  border: 0.05rem solid #3b3b3b;
 }
 
 #checkLabel:has(#symbolsCheckBox:checked) {
-  color: #3b3b3b;
-}
-
-#copyButon {
+  color: #f7f7f7;
+  background-color: #3b3b3b;
   border: 0.05rem solid #3b3b3b;
-  border-radius: 0.1rem;
-  font-size: 1.1rem;
-  background-color: #f7f7f7;
 }
 
-#copyButon,
-#symbolsCheckBox,
+#symbolsCheckBoxSpan {
+  font-size: 0.9rem;
+}
+
+#copyButton {
+  border: 0.05rem solid #3b3b3b;
+  border-radius: 0.2rem;
+  background-color: #f7f7f7;
+  padding: 0.125rem 0.25rem;
+  font-size: 1rem;
+}
+
+#copyButton,
 #checkLabel,
 #range {
   vertical-align: middle;
 }
 
-#copyButon:hover,
-#symbolsCheckBox:hover,
+.button:hover,
+#copyButton:hover,
 #checkLabel:hover,
 #range:hover {
   cursor: pointer;
 }
 
-#copyButon:hover {
+.button:hover,
+#copyButton:hover {
   background-color: #3b3b3b;
   color: #f7f7f7;
 }
 
-#copyButon:active {
+.button:active,
+#copyButton:active {
   color: #3b3b3b;
   background-color: #f7f7f7;
 }
 
 @media (prefers-color-scheme: dark) {
-
   html,
   body {
     background-color: #3b3b3b;
@@ -98,22 +145,32 @@ body {
     color: #f7f7f7;
   }
 
-  #checkLabel:has(#symbolsCheckBox:checked) {
+  #checkLabel:has(#symbolsCheckBox) {
     color: #f7f7f7;
+    border: 0.05rem solid #f7f7f7;
   }
 
-  #copyButon {
+  #checkLabel:has(#symbolsCheckBox:checked) {
+    color: #3b3b3b;
+    background-color: #f7f7f7;
+    border: 0.05rem solid #f7f7f7;
+  }
+
+  .button,
+  #copyButton {
     border: 0.05rem solid #f7f7f7;
     background-color: #3b3b3b;
     color: #f7f7f7;
   }
 
-  #copyButon:hover {
+  .button:hover,
+  #copyButton:hover {
     background-color: #f7f7f7;
     color: #3b3b3b;
   }
 
-  #copyButon:active {
+  .button:active,
+  #copyButton:active {
     color: #f7f7f7;
     background-color: #3b3b3b;
   }

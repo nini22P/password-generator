@@ -1,19 +1,10 @@
-function createPassword() {
-  var length = document.getElementById("length").value;
-  var symbols = document.getElementById("symbolsCheckBox").checked;
-  var str = "01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  if (symbols === true) str += "!@#$%^&*()_+-=[]{}:./?";
-  var passwords = "";
-  for (var i = 0; i < length; i++) {
-    passwords +=
-      str[
-      Math.floor(
-        (crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) *
-        str.length
-      )
-      ];
+function checkLanguage() {
+  if (chrome.i18n.getMessage("isEn") == "false") {
+    document.getElementById("symbolsCheckBoxSpan").innerHTML =
+      chrome.i18n.getMessage("symbols");
+    document.getElementById("copyButton").innerHTML =
+      chrome.i18n.getMessage("copy");
   }
-  document.getElementById("password").innerHTML = passwords;
 }
 
 function checkLocalStorage() {
@@ -30,6 +21,25 @@ function checkLocalStorage() {
   if (localStorage.getItem("symbols") === "true") {
     document.getElementById("symbolsCheckBox").setAttribute("checked", "true");
   }
+}
+
+function createPassword() {
+  var length = document.getElementById("length").value;
+  var symbols = document.getElementById("symbolsCheckBox").checked;
+  var str =
+    "01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  if (symbols === true) str += "!@#$%^&*()_+-=[]{}:./?";
+  var passwords = "";
+  for (var i = 0; i < length; i++) {
+    passwords +=
+      str[
+        Math.floor(
+          (crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) *
+            str.length
+        )
+      ];
+  }
+  document.getElementById("password").innerHTML = passwords;
 }
 
 function changeRange() {
@@ -49,16 +59,11 @@ function saveLength() {
   localStorage.setItem("length", document.getElementById("range").value);
 }
 
-function changeSymbols() {
+function saveSymbols() {
   localStorage.setItem(
     "symbols",
     document.getElementById("symbolsCheckBox").checked
   );
-}
-
-function copy() {
-  var pw = document.getElementById("password").innerText;
-  navigator.clipboard.writeText(pw);
 }
 
 function createPasswordByLength() {
@@ -74,17 +79,23 @@ function createPasswordByRange() {
 }
 
 function createPasswordBysymbolsCheckBox() {
-  changeSymbols();
+  saveSymbols();
   createPassword();
 }
 
-function checkLanguage() {
-  if (chrome.i18n.getMessage("isEn") == "false") {
-    document.getElementById("symbolsCheckBoxSpan").innerHTML =
-      chrome.i18n.getMessage("symbols");
-    document.getElementById("copyButon").innerHTML =
-      chrome.i18n.getMessage("copy");
-  }
+function copy() {
+  var pw = document.getElementById("password").innerText;
+  navigator.clipboard.writeText(pw);
+}
+
+function minus() {
+  document.getElementById("length").value--;
+  createPasswordByLength();
+}
+
+function plus() {
+  document.getElementById("length").value++;
+  createPasswordByLength();
 }
 
 checkLanguage();
@@ -94,4 +105,6 @@ document.getElementById("length").oninput = createPasswordByLength;
 document.getElementById("range").oninput = createPasswordByRange;
 document.getElementById("symbolsCheckBox").onchange =
   createPasswordBysymbolsCheckBox;
-document.getElementById("copyButon").onclick = copy;
+document.getElementById("minus").onclick = minus;
+document.getElementById("plus").onclick = plus;
+document.getElementById("copyButton").onclick = copy;
