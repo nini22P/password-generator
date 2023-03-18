@@ -1,110 +1,97 @@
-function checkLanguage() {
-  if (chrome.i18n.getMessage("isEn") == "false") {
-    document.getElementById("symbolsCheckBoxSpan").innerHTML =
-      chrome.i18n.getMessage("symbols");
-    document.getElementById("copyButton").innerHTML =
-      chrome.i18n.getMessage("copy");
+const getLocal = (x) => localStorage.getItem(x)
+const getForId = (x) => document.getElementById(x)
+const getTrans = (x) => chrome.i18n.getMessage(x)
+
+const checkLanguage = () => {
+  if (getTrans('isEn') == 'false') {
+    getForId('symbolsCheckBoxSpan').innerHTML = getTrans('symbols')
+    getForId('copyButton').innerHTML = getTrans('copy')
   }
 }
 
-function checkLocalStorage() {
-  if (localStorage.getItem("length") === null) {
-    document.getElementById("range").setAttribute("value", "25");
-    document.getElementById("length").value = "25";
+const checkLocalStorage = () => {
+  if (getLocal('length') === null) {
+    getForId('range').setAttribute('value', '25')
+    getForId('length').value = '25'
   } else {
-    document
-      .getElementById("range")
-      .setAttribute("value", localStorage.getItem("length"));
-    document.getElementById("length").value = localStorage.getItem("length");
+    getForId('range').setAttribute('value', getLocal('length'))
+    getForId('length').value = getLocal('length')
   }
 
-  if (localStorage.getItem("symbols") === "true") {
-    document.getElementById("symbolsCheckBox").setAttribute("checked", "true");
+  if (getLocal('symbols') === 'true') {
+    getForId('symbolsCheckBox').setAttribute('checked', 'true')
   }
 }
 
-function createPassword() {
-  var length = document.getElementById("length").value;
-  var symbols = document.getElementById("symbolsCheckBox").checked;
-  var str =
-    "01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  if (symbols === true) str += "!@#$%^&*()_+-=[]{}:./?";
-  var passwords = "";
+const createPassword = () => {
+  const length = getForId('length').value
+  const symbols = getForId('symbolsCheckBox').checked
+  let str = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+  if (symbols === true) str = str.concat('!@#$%^&*()_+-=[]{}:./?')
+  let password = ''
   for (var i = 0; i < length; i++) {
-    passwords +=
-      str[
-        Math.floor(
-          (crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) *
-            str.length
-        )
-      ];
+    password = password.concat(str[Math.floor((crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) * str.length)])
   }
-  document.getElementById("password").innerHTML = passwords;
+  getForId('password').innerHTML = password
 }
 
-function changeRange() {
-  if (document.getElementById("length").value == "") {
-    document.getElementById("range").value = 0;
+const changeRange = () => {
+  if (getForId('length').value == '') {
+    getForId('range').value = 0
   } else
-    document.getElementById("range").value =
-      document.getElementById("length").value;
+    getForId('range').value = getForId('length').value
 }
 
-function changeLength() {
-  document.getElementById("length").value =
-    document.getElementById("range").value;
+const changeLength = () => {
+  getForId('length').value = getForId('range').value
 }
 
-function saveLength() {
-  localStorage.setItem("length", document.getElementById("range").value);
+const saveLocal = () => {
+  localStorage.setItem('length', getForId('range').value)
+  localStorage.setItem('symbols', getForId('symbolsCheckBox').checked)
 }
 
-function saveSymbols() {
-  localStorage.setItem(
-    "symbols",
-    document.getElementById("symbolsCheckBox").checked
-  );
+const createPasswordByLength = () => {
+  changeRange()
+  createPassword()
+  saveLocal()
 }
 
-function createPasswordByLength() {
-  changeRange();
-  saveLength();
-  createPassword();
+const createPasswordByRange = () => {
+  changeLength()
+  createPassword()
+  saveLocal()
 }
 
-function createPasswordByRange() {
-  changeLength();
-  saveLength();
-  createPassword();
+const createPasswordBysymbolsCheckBox = () => {
+  createPassword()
+  saveLocal()
 }
 
-function createPasswordBysymbolsCheckBox() {
-  saveSymbols();
-  createPassword();
+const copy = () => {
+  var pw = getForId('password').innerText
+  navigator.clipboard.writeText(pw)
 }
 
-function copy() {
-  var pw = document.getElementById("password").innerText;
-  navigator.clipboard.writeText(pw);
+const minus = () => {
+  getForId('length').value--
+  createPasswordByLength()
 }
 
-function minus() {
-  document.getElementById("length").value--;
-  createPasswordByLength();
+const plus = () => {
+  getForId('length').value++
+  createPasswordByLength()
 }
 
-function plus() {
-  document.getElementById("length").value++;
-  createPasswordByLength();
-}
+getForId('length').oninput = createPasswordByLength
+getForId('range').oninput = createPasswordByRange
+getForId('symbolsCheckBox').onchange = createPasswordBysymbolsCheckBox
+getForId('minus').onclick = minus
+getForId('plus').onclick = plus
+getForId('copyButton').onclick = copy
 
-checkLanguage();
-checkLocalStorage();
-createPassword();
-document.getElementById("length").oninput = createPasswordByLength;
-document.getElementById("range").oninput = createPasswordByRange;
-document.getElementById("symbolsCheckBox").onchange =
-  createPasswordBysymbolsCheckBox;
-document.getElementById("minus").onclick = minus;
-document.getElementById("plus").onclick = plus;
-document.getElementById("copyButton").onclick = copy;
+document.addEventListener('DOMContentLoaded', () => {
+  checkLanguage()
+  checkLocalStorage()
+  createPassword()
+})

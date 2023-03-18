@@ -18,12 +18,12 @@ input::-webkit-inner-spin-button {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   text-align: center;
   width: auto;
   height: max-content;
-  padding: 1rem;
+  padding: 1rem 0;
   user-select: none;
 }
 
@@ -32,7 +32,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
   margin: 1rem 1rem 0 1rem;
   word-break: break-all;
-  width: 16rem;
+  width: 15.6rem;
   line-height: 1.25rem;
   user-select: text;
 }
@@ -53,7 +53,7 @@ input::-webkit-inner-spin-button {
   height: auto;
 }
 
-.button {
+.numberButton {
   border: 0.05rem solid #3b3b3b;
   border-radius: 0 0.2rem 0.2rem 0;
   border-left: none;
@@ -70,31 +70,31 @@ input::-webkit-inner-spin-button {
 }
 
 #range {
-  width: 90%;
+  width: 15.6rem;
   margin-top: 1rem;
 }
 
-#symbolsCheckBox {
+.checkBox {
   display: none;
 }
 
-#checkLabel {
+.checkLabel {
   padding: 0.125rem 0.25rem;
   border-radius: 0.2rem;
 }
 
-#checkLabel:has(#symbolsCheckBox) {
+.checkLabel:has(.checkBox) {
   color: #3b3b3b;
   border: 0.05rem solid #3b3b3b;
 }
 
-#checkLabel:has(#symbolsCheckBox:checked) {
+.checkLabel:has(.checkBox:checked) {
   color: #f7f7f7;
   background-color: #3b3b3b;
   border: 0.05rem solid #3b3b3b;
 }
 
-#symbolsCheckBoxSpan {
+.checkBoxSpan {
   font-size: 0.9rem;
 }
 
@@ -107,25 +107,25 @@ input::-webkit-inner-spin-button {
 }
 
 #copyButton,
-#checkLabel,
+.checkLabel,
 #range {
   vertical-align: middle;
 }
 
-.button:hover,
+.numberButton:hover,
 #copyButton:hover,
-#checkLabel:hover,
+.checkLabel:hover,
 #range:hover {
   cursor: pointer;
 }
 
-.button:hover,
+.numberButton:hover,
 #copyButton:hover {
   background-color: #3b3b3b;
   color: #f7f7f7;
 }
 
-.button:active,
+.numberButton:active,
 #copyButton:active {
   color: #3b3b3b;
   background-color: #f7f7f7;
@@ -145,31 +145,31 @@ input::-webkit-inner-spin-button {
     color: #f7f7f7;
   }
 
-  #checkLabel:has(#symbolsCheckBox) {
+  .checkLabel:has(.checkBox) {
     color: #f7f7f7;
     border: 0.05rem solid #f7f7f7;
   }
 
-  #checkLabel:has(#symbolsCheckBox:checked) {
+  .checkLabel:has(.checkBox:checked) {
     color: #3b3b3b;
     background-color: #f7f7f7;
     border: 0.05rem solid #f7f7f7;
   }
 
-  .button,
+  .numberButton,
   #copyButton {
     border: 0.05rem solid #f7f7f7;
     background-color: #3b3b3b;
     color: #f7f7f7;
   }
 
-  .button:hover,
+  .numberButton:hover,
   #copyButton:hover {
     background-color: #f7f7f7;
     color: #3b3b3b;
   }
 
-  .button:active,
+  .numberButton:active,
   #copyButton:active {
     color: #f7f7f7;
     background-color: #3b3b3b;

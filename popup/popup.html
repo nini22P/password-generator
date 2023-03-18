@@ -10,14 +10,15 @@
 
 <body>
     <div id="box">
-        <label id="checkLabel">
-            <input id="symbolsCheckBox" type="checkbox" /><span id="symbolsCheckBoxSpan">Symbols</span>
+        <label class="checkLabel">
+            <input id="symbolsCheckBox" class="checkBox" type="checkbox" />
+            <span id="symbolsCheckBoxSpan" class="checkBoxSpan">Symbols</span>
         </label>
 
         <div class="numberBox">
             <input type="number" id="length" min="0" max="9999"></span>
-            <button id="minus" class="button">－</button>
-            <button id="plus" class="button">＋</button>
+            <button id="minus" class="numberButton">－</button>
+            <button id="plus" class="numberButton">＋</button>
         </div>
 
         <button id="copyButton">Copy</button>
@@ -28,9 +29,8 @@
             <span id="password"></span>
         </div>
     </div>
-        
 
-        <script src="popup.js"></script>
+    <script src="popup.js"></script>
 
 </body>
 
