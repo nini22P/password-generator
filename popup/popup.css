@@ -132,6 +132,7 @@ input::-webkit-inner-spin-button {
 }
 
 @media (prefers-color-scheme: dark) {
+
   html,
   body {
     background-color: #3b3b3b;
@@ -173,5 +174,9 @@ input::-webkit-inner-spin-button {
   #copyButton:active {
     color: #f7f7f7;
     background-color: #3b3b3b;
+  }
+
+  .numberButton {
+    border-left: none;
   }
 }
