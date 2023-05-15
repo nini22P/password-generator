@@ -1,0 +1,20 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+
+  html,
+  body {
+    background-color: #292929;
+  }
+}
