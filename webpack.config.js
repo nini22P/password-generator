@@ -1,6 +1,7 @@
+const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
-const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -16,12 +17,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'popup/popup.html',
+      // filename: 'popup/popup.html',
+      filename: 'index.html',
       template: path.resolve(__dirname, 'src/popup/', 'popup.html')
     }),
     new CopyPlugin({
@@ -31,11 +38,16 @@ module.exports = {
           to: './',
           globOptions: {
             ignore: [
-              '**/*.bat'
+              '**/*.bat',
+              '**/password-generator-lite.png'
             ]
           }
         }
       ]
-    })
-  ]
+    }),
+    new ESLintPlugin(),
+  ],
+  performance: {
+    hints: false
+  },
 }

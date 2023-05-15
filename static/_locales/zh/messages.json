@@ -1,17 +1,8 @@
 {
     "extName": {
-        "message": "密码生成器Lite"
+        "message": "密码生成器"
     },
     "extDescription": {
-        "message": "一款简单的密码生成器。"
-    },
-    "isEn": {
-        "message": "false"
-    },
-    "symbols": {
-        "message": "符号"
-    },
-    "copy": {
-        "message": "复制"
+        "message": "一款密码生成器。"
     }
 }

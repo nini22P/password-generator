@@ -1,98 +1,113 @@
+import React, { useState, useMemo, useEffect } from 'react'
+import { createRoot } from 'react-dom/client'
 import './popup.css'
-const getLocal = (x) => localStorage.getItem(x)
-const getForId = (x) => document.getElementById(x)
-const getTrans = (x) => chrome.i18n.getMessage(x)
+import { Button, Checkbox, FluentProvider, Input, Slider, Text, makeStyles, webDarkTheme, webLightTheme } from '@fluentui/react-components'
+import { ChevronLeft24Filled, ChevronRight24Filled, Copy24Regular } from '@fluentui/react-icons'
 
-const checkLanguage = () => {
-  if (getTrans('isEn') == 'false') {
-    getForId('symbolsCheckBoxSpan').innerHTML = getTrans('symbols')
-    getForId('copyButton').innerHTML = getTrans('copy')
+const useStyles = makeStyles({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyItems: 'center',
+    alignItems: "center",
+    width: '220px',
+    height: 'auto',
+    maxWidth: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+});
+
+const App = () => {
+  const styles = useStyles();
+  const [theme, setTheme] = useState(webLightTheme)
+  const [uppercase, setUppercase] = useState(true)
+  const [lowercase, setLowercase] = useState(true)
+  const [number, setNumber] = useState(true)
+  const [symbol, setSymbol] = useState(true)
+  const [length, setLength] = useState(25)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+    const handleChange = () => {
+      if (mediaQuery.matches) {
+        setTheme(webDarkTheme)
+      } else {
+        setTheme(webLightTheme)
+      }
+    }
+    handleChange()
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
+
+  const getPassword = () => {
+    let str = ''
+    if (uppercase) str = str.concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    if (lowercase) str = str.concat('abcdefghijklmnopqrstuvwxyz')
+    if (number) str = str.concat('01234567890123456789')
+    if (symbol) str = str.concat('!@#$%^&*()_+-=[]{}:./?')
+    if (str === '') {
+      return ''
+    }
+    let password = ''
+    for (let i = 0; i < length; i++) {
+      password = password.concat(str[Math.floor((crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) * str.length)])
+    }
+    return password
   }
-}
 
-const checkLocalStorage = () => {
-  if (getLocal('length') === null) {
-    getForId('range').setAttribute('value', '25')
-    getForId('length').value = '25'
-  } else {
-    getForId('range').setAttribute('value', getLocal('length'))
-    getForId('length').value = getLocal('length')
+  const password = useMemo(
+    () => getPassword(),
+    [uppercase, lowercase, number, symbol, length]
+  )
+
+  const copy = () => {
+    navigator.clipboard.writeText(password)
   }
 
-  if (getLocal('symbols') === 'true') {
-    getForId('symbolsCheckBox').setAttribute('checked', 'true')
-  }
+  return (
+    <FluentProvider theme={theme}>
+      <div className={styles.container}>
+        <div style={{ marginTop: 20, userSelect: 'none' }} >
+          <Checkbox checked={uppercase} label='大写字母' onChange={(_, data) => setUppercase(data.checked)} />
+          <Checkbox checked={number} label='数字' onChange={(_, data) => setNumber(data.checked)} />
+        </div>
+        <div style={{ userSelect: 'none' }} >
+          <Checkbox checked={lowercase} label='小写字母' onChange={(_, data) => setLowercase(data.checked)} />
+          <Checkbox checked={symbol} label='符号' onChange={(_, data) => setSymbol(data.checked)} />
+        </div>
+        <br />
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 5 }}>
+          <Input
+            style={{ textAlign: 'center', width: 50, margin: 'auto' }}
+            value={length}
+            min={1}
+            max={100}
+            type='number'
+            onInput={(e) => setLength(e.target.value)}
+          />
+          <Button icon={<ChevronLeft24Filled />} onClick={() => setLength(Number(length) - 1)} />
+          <Button icon={<ChevronRight24Filled />} onClick={() => setLength(Number(length) + 1)} />
+          <Button icon={<Copy24Regular />} onClick={() => copy()} />
+        </div>
+        <br />
+        <Slider style={{ width: 176 }} value={length} min={1} max={100} onChange={(e) => setLength(e.target.value)} />
+        <br />
+        {/* <Button style={{ width: 150 }} icon={<Copy24Regular />} onClick={() => copy()} >复制</Button>
+      <br /> */}
+        <Text style={{ width: 160, marginBottom: 20, wordBreak: 'break-all' }} align="center" >{password}</Text>
+      </div>
+    </FluentProvider>
+  )
 }
 
-const createPassword = () => {
-  const length = getForId('length').value
-  const symbols = getForId('symbolsCheckBox').checked
-  let str = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-  if (symbols === true) str = str.concat('!@#$%^&*()_+-=[]{}:./?')
-  let password = ''
-  for (var i = 0; i < length; i++) {
-    password = password.concat(str[Math.floor((crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1)) * str.length)])
-  }
-  getForId('password').innerHTML = password
-}
-
-const changeRange = () => {
-  if (getForId('length').value == '') {
-    getForId('range').value = 0
-  } else
-    getForId('range').value = getForId('length').value
-}
-
-const changeLength = () => {
-  getForId('length').value = getForId('range').value
-}
-
-const saveLocal = () => {
-  localStorage.setItem('length', getForId('range').value)
-  localStorage.setItem('symbols', getForId('symbolsCheckBox').checked)
-}
-
-const createPasswordByLength = () => {
-  changeRange()
-  createPassword()
-  saveLocal()
-}
-
-const createPasswordByRange = () => {
-  changeLength()
-  createPassword()
-  saveLocal()
-}
-
-const createPasswordBysymbolsCheckBox = () => {
-  createPassword()
-  saveLocal()
-}
-
-const copy = () => {
-  var pw = getForId('password').innerText
-  navigator.clipboard.writeText(pw)
-}
-
-const minus = () => {
-  getForId('length').value--
-  createPasswordByLength()
-}
-
-const plus = () => {
-  getForId('length').value++
-  createPasswordByLength()
-}
-
-getForId('length').oninput = createPasswordByLength
-getForId('range').oninput = createPasswordByRange
-getForId('symbolsCheckBox').onchange = createPasswordBysymbolsCheckBox
-getForId('minus').onclick = minus
-getForId('plus').onclick = plus
-getForId('copyButton').onclick = copy
-
-document.addEventListener('DOMContentLoaded', () => {
-  checkLanguage()
-  checkLocalStorage()
-  createPassword()
-})
+const container = document.getElementById("root")
+const root = createRoot(container)
+root.render(
+  <App />
+)
