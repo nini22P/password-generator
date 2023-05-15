@@ -1,3 +1,4 @@
+import './popup.css'
 const getLocal = (x) => localStorage.getItem(x)
 const getForId = (x) => document.getElementById(x)
 const getTrans = (x) => chrome.i18n.getMessage(x)
