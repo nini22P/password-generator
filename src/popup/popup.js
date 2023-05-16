@@ -1,8 +1,24 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
+import { useTranslation } from 'react-i18next'
+import {
+  Button,
+  Checkbox,
+  FluentProvider,
+  Input,
+  Slider,
+  Text,
+  makeStyles,
+  webDarkTheme,
+  webLightTheme
+} from '@fluentui/react-components'
+import {
+  ChevronLeft24Filled,
+  ChevronRight24Filled,
+  Copy24Regular
+} from '@fluentui/react-icons'
 import './popup.css'
-import { Button, Checkbox, FluentProvider, Input, Slider, Text, makeStyles, webDarkTheme, webLightTheme } from '@fluentui/react-components'
-import { ChevronLeft24Filled, ChevronRight24Filled, Copy24Regular } from '@fluentui/react-icons'
+import '../i18n'
 
 const useStyles = makeStyles({
   container: {
@@ -10,7 +26,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     justifyItems: 'center',
     alignItems: "center",
-    width: '200px',
+    width: '220px',
     height: 'auto',
     maxWidth: '100%',
     marginLeft: 'auto',
@@ -20,7 +36,8 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-  const styles = useStyles();
+  const { t } = useTranslation()
+  const styles = useStyles()
   const [theme, setTheme] = useState(webLightTheme)
   const [uppercase, setUppercase] = useState(true)
   const [lowercase, setLowercase] = useState(true)
@@ -114,35 +131,66 @@ const App = () => {
     <FluentProvider theme={theme}>
       <div id='container' className={styles.container}>
         <div style={{ marginTop: 10, userSelect: 'none' }} >
-          <Checkbox checked={uppercase} label='大写字母' onChange={(_, data) => setUppercase(data.checked)} />
-          <Checkbox checked={number} label='数字' onChange={(_, data) => setNumber(data.checked)} />
+          <Checkbox
+            checked={uppercase}
+            label={t('uppercase')}
+            onChange={(_, data) => setUppercase(data.checked)}
+          />
+          <Checkbox
+            checked={number}
+            label={t('numbers')}
+            onChange={(_, data) => setNumber(data.checked)}
+          />
         </div>
         <div style={{ userSelect: 'none' }} >
-          <Checkbox checked={lowercase} label='小写字母' onChange={(_, data) => setLowercase(data.checked)} />
-          <Checkbox checked={symbol} label='符号' onChange={(_, data) => setSymbol(data.checked)} />
+          <Checkbox
+            checked={lowercase}
+            label={t('lowercase')}
+            onChange={(_, data) => setLowercase(data.checked)}
+          />
+          <Checkbox
+            checked={symbol}
+            label={t('symbols')}
+            onChange={(_, data) => setSymbol(data.checked)}
+          />
         </div>
-        <br />
-        <div style={{ display: 'flex', flexDirection: 'row', gap: 5 }}>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 5, marginTop: 8 }}>
           <Input
-            style={{ textAlign: 'center', width: 50, margin: 'auto' }}
+            style={{ textAlign: 'center', width: 100, margin: 'auto' }}
             value={length}
             min={1}
             max={100}
             type='number'
             onInput={(e) => setLength(e.target.value)}
           />
-          <Button icon={<ChevronLeft24Filled />} onClick={() => setLength(Number(length) - 1)} />
-          <Button icon={<ChevronRight24Filled />} onClick={() => setLength(Number(length) + 1)} />
-          <Button icon={<Copy24Regular />} onClick={() => navigator.clipboard.writeText(password)} />
+          <Button
+            icon={<ChevronLeft24Filled />}
+            onClick={() => setLength(Number(length) - 1)}
+          />
+          <Button
+            icon={<ChevronRight24Filled />}
+            onClick={() => setLength(Number(length) + 1)}
+          />
+          {/* <Button icon={<Copy24Regular />} onClick={() => navigator.clipboard.writeText(password)} /> */}
         </div>
-        <br />
-        <Slider style={{ width: 176 }} value={length} min={1} max={100} onChange={(e) => setLength(e.target.value)} />
-        <br />
-        {/* <Button style={{ width: 150 }} icon={<Copy24Regular />} onClick={() => copy()} >复制</Button>
-      <br /> */}
-        <Text style={{ width: 160, marginBottom: 20, wordBreak: 'break-all' }} align="center" >{password}</Text>
+        <Slider
+          style={{ width: 190, marginTop: 8 }}
+          value={length}
+          min={1}
+          max={100}
+          onChange={(e) => setLength(e.target.value)}
+        />
+        <Button
+          style={{ width: 174, marginTop: 8 }}
+          icon={<Copy24Regular />}
+          onClick={() => navigator.clipboard.writeText(password)}
+        >{t('copy')}</Button>
+        <Text
+          style={{ width: 170, marginTop: 16, marginBottom: 12, wordBreak: 'break-all' }}
+          align="center"
+        >{password}</Text>
       </div>
-    </FluentProvider>
+    </FluentProvider >
   )
 }
 

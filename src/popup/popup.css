@@ -18,3 +18,7 @@ input::-webkit-inner-spin-button {
     background-color: #292929;
   }
 }
+
+input {
+  text-align: center;
+}
