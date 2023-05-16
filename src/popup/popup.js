@@ -10,11 +10,12 @@ const useStyles = makeStyles({
     flexDirection: "column",
     justifyItems: 'center',
     alignItems: "center",
-    width: '220px',
+    width: '200px',
     height: 'auto',
     maxWidth: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
+    visibility: 'hidden',
   },
 });
 
@@ -27,6 +28,7 @@ const App = () => {
   const [symbol, setSymbol] = useState(true)
   const [length, setLength] = useState(25)
 
+  // 主题切换
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -44,6 +46,48 @@ const App = () => {
       mediaQuery.removeEventListener('change', handleChange)
     }
   }, [])
+
+  // 浏览器环境下设置缩放
+  useEffect(() => {
+    if (!chrome.i18n) {
+      const root = document.getElementById('root')
+      const container = document.getElementById("container")
+      root.style.marginTop = 'calc((100vh / 1.5) / 4)'
+      container.style.zoom = 1.5
+    }
+  }, [])
+
+  // 读取本地数据
+  useEffect(() => {
+    try {
+      const local = JSON.parse(localStorage.getItem('local'))
+      setUppercase(local.uppercase)
+      setLowercase(local.lowercase)
+      setNumber(local.number)
+      setSymbol(local.symbol)
+      if (local.length < 1) {
+        setLength(1)
+      } else if (local.length > 100) {
+        setLength(100)
+      }
+      else {
+        setLength(local.length)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      document.getElementById('container').style.visibility = 'visible'
+    }
+  }, [])
+
+  // 保存数据到本地
+  useEffect(() => {
+    const saveLocal = () => {
+      localStorage.setItem('local', JSON.stringify({ uppercase, lowercase, number, symbol, length }))
+      // console.log('saveLocal')
+    }
+    saveLocal()
+  }, [uppercase, lowercase, number, symbol, length])
 
   const getPassword = () => {
     let str = ''
@@ -66,14 +110,10 @@ const App = () => {
     [uppercase, lowercase, number, symbol, length]
   )
 
-  const copy = () => {
-    navigator.clipboard.writeText(password)
-  }
-
   return (
     <FluentProvider theme={theme}>
-      <div className={styles.container}>
-        <div style={{ marginTop: 20, userSelect: 'none' }} >
+      <div id='container' className={styles.container}>
+        <div style={{ marginTop: 10, userSelect: 'none' }} >
           <Checkbox checked={uppercase} label='大写字母' onChange={(_, data) => setUppercase(data.checked)} />
           <Checkbox checked={number} label='数字' onChange={(_, data) => setNumber(data.checked)} />
         </div>
@@ -93,7 +133,7 @@ const App = () => {
           />
           <Button icon={<ChevronLeft24Filled />} onClick={() => setLength(Number(length) - 1)} />
           <Button icon={<ChevronRight24Filled />} onClick={() => setLength(Number(length) + 1)} />
-          <Button icon={<Copy24Regular />} onClick={() => copy()} />
+          <Button icon={<Copy24Regular />} onClick={() => navigator.clipboard.writeText(password)} />
         </div>
         <br />
         <Slider style={{ width: 176 }} value={length} min={1} max={100} onChange={(e) => setLength(e.target.value)} />
@@ -106,8 +146,6 @@ const App = () => {
   )
 }
 
-const container = document.getElementById("root")
-const root = createRoot(container)
-root.render(
+createRoot(document.getElementById("root")).render(
   <App />
 )
