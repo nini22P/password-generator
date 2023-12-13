@@ -18,7 +18,7 @@ import {
   Copy24Regular
 } from '@fluentui/react-icons'
 import './popup.css'
-import '../i18n'
+import './i18n'
 
 const useStyles = makeStyles({
   container: {

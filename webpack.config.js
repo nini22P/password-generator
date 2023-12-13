@@ -5,10 +5,10 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   entry: {
-    popup: path.resolve(__dirname, 'src/popup', 'popup.js')
+    popup: path.resolve(__dirname, 'src', 'popup.js')
   },
   output: {
-    filename: '[name]/[name].js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'build'),
     clean: true
   },
@@ -27,9 +27,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      // filename: 'popup/popup.html',
       filename: 'index.html',
-      template: path.resolve(__dirname, 'src/popup/', 'popup.html')
+      template: path.resolve(__dirname, 'src', 'popup.html')
     }),
     new CopyPlugin({
       patterns: [
